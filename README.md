@@ -106,14 +106,19 @@ The library being open until 2am is a trap. It's a resource, not a schedule.
 <!-- One complete question and answer, pasted as text, with the source line
      visible. Milestone 4. -->
 
-**Question:**
+**Question:** How many times can you change your meal plan tier, and by when?
 
-**Answer:**
+**Answer:** 
 
 ```
+  (best distance 0.161, cutoff 0.6)
+
+According to thread_meal_plan_tier.txt, you can change your meal plan tier only once and only in the first ten days.
+
+Sources retrieved: thread_meal_plan_tier.txt, thread_pass_fail.txt
 ```
 
-**My relevance cutoff:**
+**My relevance cutoff:** 0.6, unchanged from the default. My in-scope questions landed between 0.1-0.4 and out-of-scope landed between 0.8-0.9 so that's a clean cutoff. Near-miss questions landed at 0.2-0.3 which is inside the in-scope range since the topic is covered but the exact answers are not mentioned.
 
 <!-- The number you set in config.py, and how you got there.
 
@@ -124,10 +129,23 @@ The library being open until 2am is a trap. It's a resource, not a schedule.
 
      Milestone 4. -->
 
-| Question | In corpus? | Best distance |
-|---|---|---|
-|  |  |  |
-
+| Question | In corpus? | Best distance | Category |
+|---|---|---|---|
+| How many times can you change your meal plan tier, and by when? | yes | 0.161 | in scope |
+| According to students, what's the best time to ask an instructor for a late-deadline extension? | yes | 0.404 | in scope |
+| When should you use the pass/fail option, and how late can you declare it? | yes | 0.211 | in scope |
+| What's the one thing first-generation students are told to ask about explicitly? | yes | 0.371 | in scope |
+| When is laundry least busy in the dorms? | yes | 0.206 | in scope |
+| What is the capital of Mongolia? | no | 0.899 | out of scope |
+| How do I change the oil in a diesel engine? | no | 0.905 | out of scope |
+| Who won the 1994 World Cup? | no | 0.898 | out of scope |
+| What is the recommended dosage of ibuprofen for a headache? | no | 0.819 | out of scope |
+| How do I write a for loop in Rust? | no | 0.861 | out of scope |
+| How much does a parking permit cost? | no | 0.340 | near miss |
+| What's the price per page for color printing? | no | 0.251 | near miss |
+| Is there a fee to change your meal plan tier? | no | 0.297 | near miss |
+| Do transfer credits count toward financial aid? | no | 0.374 | near miss |
+| Which library study room has the best wifi? | no | 0.360 | near miss |
 ## How I Used AI
 
 <!-- Two specific moments. For each: what you asked for, what came back, and

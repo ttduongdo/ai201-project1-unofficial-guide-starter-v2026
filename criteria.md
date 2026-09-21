@@ -22,23 +22,19 @@ pipeline earns credit; *"80% seemed reasonable"* does not.
 For at least 4 of my 5 test questions, the retrieved chunks include one that
 contains the answer.
 
-**Why this target:**
+**Why this target:** A couple of my questions depend on retrieving a specific reply over a similar one in the same thread (e.g. pass/fail reply 2 vs. reply 1), so I expect at least one to be harder than the rest. 4 of 5 tolerates one hard question but missing two would mean retrieval itself is broken.
 <!-- e.g. "One of my questions is about a topic only two documents mention, so
      I expect that one to be hard." -->
-A couple of my questions depend on retrieving a specific reply over a similar one 
-in the same thread (e.g. pass/fail reply 2 vs. reply 1), so I expect at least one
-to be harder than the rest. 4 of 5 tolerates one hard question but missing two would
-mean retrieval itself is broken.
 ---
 
 ## 2. Every answer names a source
 
 Every answer the system produces names at least one source document.
 
-**Why this target:**
+**Why this target:** This is formatting behavior so it should not be broken, otherwise the prompt itself is broken.
 <!-- Why all five and not four? What about your setup makes that achievable —
      or what would have to go wrong for it not to be? -->
-This is formatting behavior so it should not be broken, otherwise the prompt itself is broken.
+
 ---
 
 ## 3. The relevance gate stops out-of-corpus questions
@@ -52,7 +48,7 @@ in at least 4 of 5 tries.
      what happened into your run log. Swap them for your own if you'd rather —
      just keep five of them, or the "4 of 5" above has nothing to be 4 of. -->
 
-**Why this target:**
+**Why this target:** One pass means noise from the gate's threshold being at the edge for some particular phrasing but more than that means consistent failure.
 <!-- What did your distances look like when you set the cutoff in Milestone 4?
      Was there a clean gap, or did the two groups overlap? -->
 
@@ -77,13 +73,9 @@ tier, and by when?"), the single retrieved chunk contains both the count and
 the deadline together, not split across two chunks in at least 4 of 5
 tries.
 
-**Why this target:**
+**Why this target:** The answer to this question lives in one sentence of `thread_meal_plan_tier` reply 3 ("you can only change it once and only in the first ten days"). So a correctly-sized chunk should never need to stitch two chunks together to get both halves. 4 of 5 only because chunk boundaries can shift slightly if the pipeline rechunks between runs, when I'm only watching for is a consistent mid-sentence split.
 
-The answer to this question lives in one sentence of `thread_meal_plan_tier` 
-reply 3 ("you can only change it once and only in the first ten days"). So 
-a correctly-sized chunk should never need to stitch two chunks together to get
-both halves. 4 of 5 only because chunk boundaries can shift slightly if the pipeline
-rechunks between runs, when I'm only watching for is a consistent mid-sentence split.
+
 
 ---
 
@@ -96,16 +88,11 @@ rechunks between runs, when I'm only watching for is a consistent mid-sentence s
      handles badly, about source attribution being correct rather than merely
      present — anything, as long as it names a number or an observable
      outcome. -->
-The system's cited source is the higher-voted reply, not merely the first reply
-in the thread or any reply that happens to mention the topic.
+The system's cited source is the higher-voted reply, not merely the first reply in the thread or any reply that happens to mention the topic.
 
 
-**Why this target:**
+**Why this target:** I picked three questions spanning a landslide gap (47/20), a medium gap (38/24), and a close gap (41/33) specifically so this criterion is testing whether ranking holds up as the vote gap narrows. 4 of 5 rather than 5 of 5 because the closest case (41 vs 33) is kind of ambiguous when I'm only watching for consistent failures.
 
-I picked three questions spanning a landslide gap (47/20), a medium gap (38/24), 
-and a close gap (41/33) specifically so this criterion is testing whether ranking 
-holds up as the vote gap narrows. 4 of 5 rather than 5 of 5 because the closest 
-case (41 vs 33) is kind of ambiguous when I'm only watching for consistent failures.
 
 ---
 
