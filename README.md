@@ -1,19 +1,6 @@
 # The Unofficial Guide
 
-<!-- Replace this line with your name and which corpus you picked. -->
-
-> **This file is your submission.** Fill it in as you go — most sections get
-> written during the milestone that produces them, not at the end.
->
-> How the starter works, and every command you'll need, is in `RUNNING.md`.
-> Leave that file alone.
->
-> **Paste everything as text.** No screenshots, no video. A typed table gets
-> full credit; a picture of the same table gets none.
->
-> Delete these instruction blocks as you replace them. The `<!-- -->` comments
-> are notes to you and don't show up when the page renders — you can leave them
-> or remove them.
+Robbie - Corpus: advice_threads
 
 ---
 
@@ -29,8 +16,16 @@
 
 ## Chunking Strategy
 
-**Chunk size:**
-**Overlap:**
+**Chunk size:** No fixed size but split on reply boundaries (`--- reply N (X votes) ---`). One reply per chunk, with the thread title prepended to it.
+**Overlap:** None. 
+
+Each document in `advice_threads/documents` is a forum thread made of 3–5 replies, each answering the thread's question independently. A fixed character window was the wrong tool for that shape, specifically at 800 characters it barely cut anything (26 chunks from 23 documents, one whole thread per chunk), which buried a specific reply's vote count and content inside other unrelated opinions. That's exactly the problem criterion 5 depends on where I need to cite *the highest-voted reply*.
+
+I started by considering a smaller fixed window of 200–300 characters instead of splitting by replies, which is about the average length of a reply. I dropped it because a fixed window doesn't know where one reply ends and the next begins. This strategy encounters the same behavior as the fallback chunker where we have a 2-character trailing fragment from a document. Splitting on the actual `--- reply ---` marker instead means every chunk boundary is a real structural boundary in the document so there was no fragment problem to solve with overlap in the first place.
+
+I also prepend the thread title to every reply chunk, because a reply alone often does not restate what it's answering. Without the title, a chunk could match a question by vocabulary but fail the "could someone answer a question using only this" test.
+
+Result: 75 chunks, averaging 174 characters (shortest 104, longest 253) - up from 26 chunks averaging 487 characters under the fixed-window fallback. No chunk is a whole thread anymore, and the shortest chunk went from a 2-character fragment to 104 characters.
 
 <!-- What about YOUR documents made you pick these numbers? Short posts and
      long sectioned guides don't want the same chunking, and "800 seemed
@@ -53,12 +48,9 @@
 
      Milestone 3. -->
 
-**Chunk 1** — source: `` — produced by: ``
+<!-- **Chunk 1** — source: `thread_bike_commute.txt#0` — produced by: `python app.py --corpus advice_threads chunks -n 1`
 
 ```
-======================================================================
-Chunk 1  |  source: thread_bike_commute.txt#0  |  produced by: chunker.py::fallback_split
-======================================================================
 THREAD: Is a bike worth it for a 20 minute walk commute?
 
 --- reply 1 (14 votes) ---
@@ -72,26 +64,41 @@ Both true. I keep a cheap bike for September to November and walk the rest of th
 
 --- reply 4 (5 votes) ---
 If you do get one, the campus does free registration and it's the only reason I got mine back after it was taken.
-```
-
-**Chunk 2** — source: `` — produced by: ``
-
-```
-```
-
-**Chunk 3** — source: `` — produced by: ``
+``` -->
+**Chunk 1** — source: `thread_bike_commute.txt#0` — produced by: `python app.py --corpus advice_threads chunks -n 1`
 
 ```
+THREAD: Is a bike worth it for a 20 minute walk commute?
+Yeah. Cuts an 18 minute walk to about 6. The thing nobody mentions is storage — covered bike parking exists at three buildings and is full by 9am at all three.
 ```
 
-**Chunk 4** — source: `` — produced by: ``
+**Chunk 2** — source: `thread_first_gen.txt#1 ` — produced by: `python app.py --corpus advice_threads chunks -n 5`
 
 ```
+THREAD: Anything specific for first-generation students?
+The thing I'd say: the unwritten rules are the hard part, not the coursework. Ask about the unwritten rules explicitly. People are happy to explain them and nobody volunteers them.
 ```
 
-**Chunk 5** — source: `` — produced by: ``
+**Chunk 3** — source: `thread_laptop_specs.txt#2` — produced by: `python app.py --corpus advice_threads chunks -n 5`
 
 ```
+THREAD: How much laptop do I actually need for CS courses?
+I did two years on an 8GB machine and it was fine until the last project, at which point it very much wasn't. 16 is the answer.
+```
+
+**Chunk 4** — source: `source: thread_parking.txt#1` — produced by: `python app.py --corpus advice_threads chunks -n 5`
+
+```
+THREAD: Worth getting a parking permit?
+Street parking on Verrill is legal and free and unmarked, which is why half the upper years do it.
+```
+
+**Chunk 5** — source: `thread_sleep_schedule.txt#1` — produced by: `python app.py --corpus advice_threads chunks -n 5`
+
+
+```
+THREAD: Everyone says fix your sleep. Does it actually matter?
+The library being open until 2am is a trap. It's a resource, not a schedule.
 ```
 
 ## Sample Answer
