@@ -114,10 +114,12 @@ def split_documents(documents: list[Document]) -> list[Chunk]:
 
         if not matches:
             chunks.append(
-                text=text,
-                source=doc.source,
-                index=0,
-                produced_by="chunker.py::split_documents",
+                Chunk(
+                    text=text,
+                    source=doc.source,
+                    index=0,
+                    produced_by="chunker.py::split_documents",
+                )
             )
             continue
 

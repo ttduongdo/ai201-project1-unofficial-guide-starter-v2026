@@ -8,6 +8,7 @@ Robbie - Corpus: advice_threads
 
 ## What This Does
 
+This is a Q&A system over the `advice_threads` corpus of 23 forum threads where students give advice about their campus life, dining, dorms, deadlines, clubs, and more. Each thread holds several replies ranked by votes answering a specific question. Ask the corpus about something it covers and it should answer with a source file. If asked something outside of scope, the corpus should state so instead of guessing.
 <!-- Three or four sentences. Which corpus you picked, and the kinds of
      questions your system answers. Write it for someone who has never seen
      this repo.
@@ -48,7 +49,7 @@ Result: 75 chunks, averaging 174 characters (shortest 104, longest 253) - up fro
 
      Milestone 3. -->
 
-<!-- **Chunk 1** — source: `thread_bike_commute.txt#0` — produced by: `python app.py --corpus advice_threads chunks -n 1`
+**Chunk 1** — source: `thread_bike_commute.txt#0` — produced by: `python app.py --corpus advice_threads chunks -n 1`
 
 ```
 THREAD: Is a bike worth it for a 20 minute walk commute?
@@ -64,8 +65,9 @@ Both true. I keep a cheap bike for September to November and walk the rest of th
 
 --- reply 4 (5 votes) ---
 If you do get one, the campus does free registration and it's the only reason I got mine back after it was taken.
-``` -->
-**Chunk 1** — source: `thread_bike_commute.txt#0` — produced by: `python app.py --corpus advice_threads chunks -n 1`
+```
+
+**Chunk 1** — source: `thread_bike_commute.txt#0` — produced by: `python app.py --corpus advice_threads chunks -n 5`
 
 ```
 THREAD: Is a bike worth it for a 20 minute walk commute?
@@ -157,9 +159,9 @@ Sources retrieved: thread_meal_plan_tier.txt, thread_pass_fail.txt
 
      Milestone 5. -->
 
-**1.**
+**1.** I asked Claude on the regex to split replies in my chunking strategy and later on to reverse check if a chunk makes sense on its own, which Claude added prepending the title.
 
-**2.**
+**2.** After running "best time to ask for a late-deadline extension", the answer cited both `thread_late_work.txt` and `thread_group_project.txt`, but those two threads are about different situations (an instructor extension vs. a disappearing group member) that just happen to share similar phrasing. Claude pointed out a new near-miss, meaning the model was blending two documents' claims into one sentence. The suggested fix was to add a line to `GROUNDING_INSTRUCTION` telling the model not to merge similar claims from different documents unless they're actually about the same situation.
 
 <!-- ── Stretch features ─────────────────────────────────────────────────────
      Doing one? Say so here BEFORE you start. A feature this README never
