@@ -25,7 +25,10 @@ contains the answer.
 **Why this target:**
 <!-- e.g. "One of my questions is about a topic only two documents mention, so
      I expect that one to be hard." -->
-
+A couple of my questions depend on retrieving a specific reply over a similar one 
+in the same thread (e.g. pass/fail reply 2 vs. reply 1), so I expect at least one
+to be harder than the rest. 4 of 5 tolerates one hard question but missing two would
+mean retrieval itself is broken.
 ---
 
 ## 2. Every answer names a source
@@ -35,7 +38,7 @@ Every answer the system produces names at least one source document.
 **Why this target:**
 <!-- Why all five and not four? What about your setup makes that achievable —
      or what would have to go wrong for it not to be? -->
-
+This is formatting behavior so it should not be broken, otherwise the prompt itself is broken.
 ---
 
 ## 3. The relevance gate stops out-of-corpus questions
@@ -55,7 +58,7 @@ in at least 4 of 5 tries.
 
 ---
 
-## 4. Something about your chunks
+## 4. Chunk contains all parts of a compound fact
 
 <!-- YOU WRITE THIS ONE.
 
@@ -69,15 +72,22 @@ in at least 4 of 5 tries.
        - "No chunk is shorter than 200 characters, since anything below that
           in my corpus turned out to be a heading with no content under it." -->
 
-
+For the meal plantier question ("how many times can you change your meal plan 
+tier, and by when?"), the single retrieved chunk contains both the count and 
+the deadline together, not split across two chunks in at least 4 of 5
+tries.
 
 **Why this target:**
 
-
+The answer to this question lives in one sentence of `thread_meal_plan_tier` 
+reply 3 ("you can only change it once and only in the first ten days"). So 
+a correctly-sized chunk should never need to stitch two chunks together to get
+both halves. 4 of 5 only because chunk boundaries can shift slightly if the pipeline
+rechunks between runs, when I'm only watching for is a consistent mid-sentence split.
 
 ---
 
-## 5. Your choice
+## 5. When a thread has multiple conflicting replies, the system cites the highest-voted reply as its source in at least 4 of 5 tries.
 
 <!-- YOU WRITE THIS ONE TOO.
 
@@ -86,12 +96,16 @@ in at least 4 of 5 tries.
      handles badly, about source attribution being correct rather than merely
      present — anything, as long as it names a number or an observable
      outcome. -->
-
+The system's cited source is the higher-voted reply, not merely the first reply
+in the thread or any reply that happens to mention the topic.
 
 
 **Why this target:**
 
-
+I picked three questions spanning a landslide gap (47/20), a medium gap (38/24), 
+and a close gap (41/33) specifically so this criterion is testing whether ranking 
+holds up as the vote gap narrows. 4 of 5 rather than 5 of 5 because the closest 
+case (41 vs 33) is kind of ambiguous when I'm only watching for consistent failures.
 
 ---
 
