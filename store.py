@@ -42,7 +42,7 @@ class Result:
     label: str
     distance: float   # LOWER IS BETTER. 0.3 is close, 0.9 is unrelated.
     produced_by: str
-
+    votes: int = 0
 
 _model = None
 
@@ -170,7 +170,7 @@ def build_index(
             documents=[c.text for c in window],
             embeddings=embed([c.text for c in window]),
             metadatas=[
-                {"source": c.source, "index": c.index, "produced_by": c.produced_by}
+                {"source": c.source, "index": c.index, "produced_by": c.produced_by, "votes": c.votes}
                 for c in window
             ],
         )
@@ -183,6 +183,7 @@ def search(
     top_k: int | None = None,
     corpus: str | None = None,
     variant: str = "default",
+    min_votes: int | None = None,
 ) -> list[Result]:
     """
     Retrieve the chunks closest in meaning to a question.
@@ -199,9 +200,12 @@ def search(
             f"No index called '{name}'. Run `python app.py index` first."
         ) from exc
 
+    where = {"votes": {"$gte": min_votes}} if min_votes is not None else None
+
     raw = collection.query(
         query_embeddings=embed([question]),
         n_results=min(top_k, collection.count()),
+        where=where,
     )
 
     results: list[Result] = []
@@ -215,6 +219,7 @@ def search(
                 label=f"{meta.get('source', 'unknown')}#{meta.get('index', 0)}",
                 distance=float(distance),
                 produced_by=str(meta.get("produced_by", "unknown")),
+                votes=int(meta.get("votes", 0)),
             )
         )
     return results

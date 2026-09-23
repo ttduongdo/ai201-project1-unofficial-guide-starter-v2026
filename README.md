@@ -171,6 +171,30 @@ Sources retrieved: thread_meal_plan_tier.txt, thread_pass_fail.txt
 ### Metadata filtering
 **Motivation:** Each chunk carries a vote count of the reply it came from. Store as `votes` in Chroma metadata and make `retrieve` accept a `--min-votes N` argument, which filters chunks below a vote count threshold before ranking.
 
+**Question:** "How many times can you change your meal plan tier, and by when?"
+
+**No filtering** — produced by: `python app.py --corpus advice_threads retrieve "How many times can you change your meal plan tier, and by when?"`
+
+| # | distance | source | votes |
+|---|---|---|---|
+| 1 | 0.1611 | thread_meal_plan_tier.txt | 11 |
+| 2 | 0.3109 | thread_meal_plan_tier.txt | 19 |
+| 3 | 0.3731 | thread_meal_plan_tier.txt | 24 |
+| 4 | 0.3845 | thread_meal_plan_tier.txt | 7 |
+| 5 | 0.7153 | thread_pass_fail.txt | — |
+
+**With filtering** — produced by: `python app.py --corpus advice_threads retrieve "How many times can you change your meal plan tier, and by when?" --min-votes 15`
+
+| # | distance | source | votes |
+|---|---|---|---|
+| 1 | 0.311 | thread_meal_plan_tier.txt | 19 |
+| 2 | 0.373 | thread_meal_plan_tier.txt | 24 |
+| ... | | | |
+
+**What changed:** The correct and most relevant answer with distance 0.161 ("you can only change it once, in the first ten days") has only 11 votes. Filtering at `--min-votes 15` removes it and promotes less relevant replies in the same thread to the top instead.
+
+This means vote-based filtering is a poor default for this corpus, since vote count measures agreement with a reply within its own thread, not relevance to an arbitrary question being asked of the corpus. A factual reply to the question might ending up being a lesser-upvoted reply in its thread.
+
 ---
 
 # Unit 2

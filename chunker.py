@@ -37,6 +37,7 @@ class Chunk:
     source: str        # which file it came from
     index: int         # which chunk within that file, starting at 0
     produced_by: str   # the function that made it — cite this in your README
+    votes: int = 0
 
     @property
     def label(self) -> str:
@@ -100,7 +101,7 @@ def split_documents(documents: list[Document]) -> list[Chunk]:
     """
 
     reply_pattern = re.compile(
-        r"--- reply \d+ \(\d+ votes?\) ---\s*\n(.*?)(?=\n*--- reply \d+|\Z)",
+        r"--- reply \d+ \((\d+) votes?\) ---\s*\n(.*?)(?=\n*--- reply \d+|\Z)",
         re.DOTALL,
     )
 
@@ -124,7 +125,7 @@ def split_documents(documents: list[Document]) -> list[Chunk]:
             continue
 
         for i, match in enumerate(matches):
-            reply_text = match.group(1).strip()
+            votes_str, reply_text = match.groups()
             chunk_text = f"{title}\n{reply_text}"
             chunks.append(
                 Chunk(
@@ -132,6 +133,7 @@ def split_documents(documents: list[Document]) -> list[Chunk]:
                     source=doc.source,
                     index=i,
                     produced_by="chunker.py::split_documents",
+                    votes=int(votes_str),
                 )
             )
     # return fallback_split(documents)
