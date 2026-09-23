@@ -167,6 +167,9 @@ Sources retrieved: thread_meal_plan_tier.txt, thread_pass_fail.txt
      Doing one? Say so here BEFORE you start. A feature this README never
      claims earns nothing.
      ───────────────────────────────────────────────────────────────────────── -->
+## Stretch features
+### Metadata filtering
+**Motivation:** Each chunk carries a vote count of the reply it came from. Store as `votes` in Chroma metadata and make `retrieve` accept a `--min-votes N` argument, which filters chunks below a vote count threshold before ranking.
 
 ---
 
