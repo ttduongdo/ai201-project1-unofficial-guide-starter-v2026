@@ -217,15 +217,158 @@ This means vote-based filtering is a poor default for this corpus, since vote co
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 |  |  |  |  |
-| 2. Every answer names a source | 5 of 5 |  |  |  |  |
-| 3. Gate stops out-of-corpus questions | 4 of 5 |  |  |  |  |
-| 4. | | | | | |
-| 5. | | | | | |
+| 1. Retrieved chunk contains the answer | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 2. Every answer names a source | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 4. Chunk contains all parts of a compound fact | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 5. When a thread has multiple conflicting replies, the system cites the highest-voted reply as its source | 4 of 5 | 4/5 | 4/5 | 4/5 | MET |
 
 <!-- Underneath, paste the REAL output for each criterion from one of your
      runs — the actual text your system produced, not a description of it.
      Name the file and function that produced it. -->
+
+### How many times can you change your meal plan tier, and by when? — run 1
+
+- Best distance: 0.1611 (passed the gate)
+- Sources retrieved: thread_meal_plan_tier.txt, thread_pass_fail.txt
+
+```
+Based on the documents, you can only change your meal plan tier once, and only in the first ten days (thread_meal_plan_tier.txt).
+```
+
+### How many times can you change your meal plan tier, and by when? — run 2
+
+- Best distance: 0.1611 (passed the gate)
+- Sources retrieved: thread_meal_plan_tier.txt, thread_pass_fail.txt
+
+```
+You can change your meal plan tier only once, and only in the first ten days (thread_meal_plan_tier.txt).
+```
+
+### How many times can you change your meal plan tier, and by when? — run 3
+
+- Best distance: 0.1611 (passed the gate)
+- Sources retrieved: thread_meal_plan_tier.txt, thread_pass_fail.txt
+
+```
+According to thread_meal_plan_tier.txt, you can change your meal plan tier only once and only in the first ten days.
+```
+
+### According to students, what's the best time to ask an instructor for a late-deadline extension? — run 1
+
+- Best distance: 0.4043 (passed the gate)
+- Sources retrieved: thread_first_year_regret.txt, thread_group_project.txt, thread_late_work.txt
+
+```
+According to students, the best time to ask for an extension is before the deadline rather than after. (Source: *thread_late_work.txt* and *thread_group_project.txt*)
+```
+
+### According to students, what's the best time to ask an instructor for a late-deadline extension? — run 2
+
+- Best distance: 0.4043 (passed the gate)
+- Sources retrieved: thread_first_year_regret.txt, thread_group_project.txt, thread_late_work.txt
+
+```
+According to students, the best time to ask for an extension is before the deadline rather than after. (Source: *thread_late_work.txt* and *thread_group_project.txt*)
+```
+
+### According to students, what's the best time to ask an instructor for a late-deadline extension? — run 3
+
+- Best distance: 0.4043 (passed the gate)
+- Sources retrieved: thread_first_year_regret.txt, thread_group_project.txt, thread_late_work.txt
+
+```
+According to students, the best time to ask an instructor for an extension is before the deadline rather than after (*thread_late_work.txt* and *thread_group_project.txt*). If you ask before the deadline (for example, on Wednesday for a Friday deadline), almost everyone will give you two days, whereas almost nobody will on the following Monday (*thread_late_work.txt*).
+```
+
+### When should you use the pass/fail option, and how late can you declare it? — run 1
+
+- Best distance: 0.2111 (passed the gate)
+- Sources retrieved: thread_first_year_regret.txt, thread_pass_fail.txt
+
+```
+You should use the pass/fail option for a course outside your major that you are taking out of curiosity (thread_pass_fail.txt). You can declare it as late as week eight (thread_pass_fail.txt and thread_first_year_regret.txt).
+```
+
+### When should you use the pass/fail option, and how late can you declare it? — run 2
+
+- Best distance: 0.2111 (passed the gate)
+- Sources retrieved: thread_first_year_regret.txt, thread_pass_fail.txt
+
+```
+You should use the pass/fail option for a course outside your major that you are taking out of curiosity (thread_pass_fail.txt). You can declare it as late as week eight (thread_pass_fail.txt and thread_first_year_regret.txt).
+```
+
+### When should you use the pass/fail option, and how late can you declare it? — run 3
+
+- Best distance: 0.2111 (passed the gate)
+- Sources retrieved: thread_first_year_regret.txt, thread_pass_fail.txt
+
+```
+You should use the pass/fail option for a course outside your major that you are taking out of curiosity (thread_pass_fail.txt). You can declare it as late as week eight (thread_pass_fail.txt and thread_first_year_regret.txt).
+```
+
+### What's the one thing first-generation students are told to ask about explicitly? — run 1
+
+- Best distance: 0.3710 (passed the gate)
+- Sources retrieved: thread_first_gen.txt, thread_first_year_regret.txt
+
+```
+First-generation students are told to ask explicitly about the unwritten rules, because people are happy to explain them but nobody volunteers them (thread_first_gen.txt).
+```
+
+### What's the one thing first-generation students are told to ask about explicitly? — run 2
+
+- Best distance: 0.3710 (passed the gate)
+- Sources retrieved: thread_first_gen.txt, thread_first_year_regret.txt
+
+```
+First-generation students are told to explicitly ask about the "unwritten rules," because people are happy to explain them even though nobody volunteers them. 
+
+Source: `thread_first_gen.txt`
+```
+
+### What's the one thing first-generation students are told to ask about explicitly? — run 3
+
+- Best distance: 0.3710 (passed the gate)
+- Sources retrieved: thread_first_gen.txt, thread_first_year_regret.txt
+
+```
+First-generation students are told to ask explicitly about the "unwritten rules," because people are happy to explain them but nobody volunteers them (thread_first_gen.txt).
+```
+
+### When is laundry least busy in the dorms? — run 1
+
+- Best distance: 0.2059 (passed the gate)
+- Sources retrieved: thread_laundry_timing.txt, thread_roommate_conflict.txt
+
+```
+Laundry is least busy (actually free) on Tuesday and Wednesday mornings in every building. 
+
+Source: thread_laundry_timing.txt
+```
+
+### When is laundry least busy in the dorms? — run 2
+
+- Best distance: 0.2059 (passed the gate)
+- Sources retrieved: thread_laundry_timing.txt, thread_roommate_conflict.txt
+
+```
+Laundry is least busy on Tuesday and Wednesday mornings in every building. 
+
+Source: thread_laundry_timing.txt
+```
+
+### When is laundry least busy in the dorms? — run 3
+
+- Best distance: 0.2059 (passed the gate)
+- Sources retrieved: thread_laundry_timing.txt, thread_roommate_conflict.txt
+
+```
+Laundry is least busy (actually free) on Tuesday and Wednesday mornings in every building. 
+
+Source: thread_laundry_timing.txt
+```
 
 ## Verdicts
 
@@ -240,11 +383,11 @@ This means vote-based filtering is a poor default for this corpus, since vote co
 
 | # | Criterion | Verdict | How I decided |
 |---|---|---|---|
-| 1 |  |  |  |
-| 2 |  |  |  |
-| 3 |  |  |  |
-| 4 |  |  |  |
-| 5 |  |  |  |
+| 1 | Retrieved chunk contains the answer | MET | 5/5 held across all 3 runs: Chunk-per-reply strategy consistently yields deterministic answers. |
+| 2 | Every answer names a source | MET | 5/5 held across all 3 runs: All answers cite at least one source thread. |
+| 3 | Gate stops out-of-corpus questions | MET | 5/5 held across all 3 runs: Clean pass as expected since out-of-scope distance is way above the cutoff. |
+| 4 | Chunk contains all parts of a compound fact | MET | 5/5 held across all 3 runs: Meal-plan-tier and laundry answers preserves all facts in one chunk |
+| 5 | Cites the highest-voted reply, not just any reply | MET | exactly 4/5 all 3 times: Consistenly miss late-work question, explained below. |
 
 ## Diagnoses
 
@@ -266,9 +409,15 @@ This means vote-based filtering is a poor default for this corpus, since vote co
 
      Milestone 3. -->
 
+**Criteria 5** fails on the same question ("According to students, what's the best time to ask an instructor for a late-deadline extension?") across all 3 runs.
+
+**How:** Failed at generation stage. Retrieval surfaced the highest-voted reply: (`thread_late_work.txt`, 47 votes, "ask before the deadline") with the lowest distance (0.404). However it also cited a lower-voted chunk (distance 0.507) (`thread_group_project.txt`, 22 votes, about how to address a disappearing member in a group project). The model merged both into one answer instead of recognizing they're about different situations that happen to share the phrase "before the deadline rather than after". The other four questions never showed this behavior, including one that also retrieved an irrelevant chunk (`thread_first_year_regret.txt`) alongside the correct one and correctly ignored it.
+
+**About target thresholds:** criteria 1, 3, and 4 were all set at 4/5 and came in at 5/5 across all three runs, including the two hardest cases I built in specifically to stress them (the close vote-gap question for criterion 5, and the compound-fact meal-plan question for criterion 4). I'd tighten criterion 1 to 5/5, since retrieval on this corpus was fully deterministic across every run. On the other hand, criterion 5 landed at exactly 4/5, failing at the same question the same way every time. This means a 4/5 threshold is fitting one known bug and should be tightened to 5/5 as well.
+
 ## The Improvement
 
-**What I changed:**
+**What I changed:** 
 
 **Why I picked it:**
 
