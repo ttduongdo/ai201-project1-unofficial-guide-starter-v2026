@@ -163,6 +163,8 @@ Sources retrieved: thread_meal_plan_tier.txt, thread_pass_fail.txt
 
 **2.** After running "best time to ask for a late-deadline extension", the answer cited both `thread_late_work.txt` and `thread_group_project.txt`, but those two threads are about different situations (an instructor extension vs. a disappearing group member) that just happen to share similar phrasing. Claude pointed out a new near-miss, meaning the model was blending two documents' claims into one sentence. The suggested fix was to add a line to `GROUNDING_INSTRUCTION` telling the model not to merge similar claims from different documents unless they're actually about the same situation.
 
+**3.** 
+
 <!-- ── Stretch features ─────────────────────────────────────────────────────
      Doing one? Say so here BEFORE you start. A feature this README never
      claims earns nothing.
@@ -451,6 +453,12 @@ One side effect: The pass-fail question also dropped from citing two sources (`t
 
 ## What's Still Broken
 
+Nothing failed on this run but there are two things to improve:
+
+1. **The grounding-instruction fix is not a systematic guarantee.** It tells the model not to merge similar-sounding claims from different documents, but it relies on the model correctly judging which similarities are coincidental (late-work/group-project) versus genuine corroboration (pass-fail/first-year-regret). A different pair of documents with subtler overlapping language could still slip past this instruction.
+
+2. **`scorer.py` can also detect citation quality** The late-work question scored "pass" under the old grouding instruction anyway, since "before" was always in the answer regardless of which sources. If I had more time, I'd add to the scorer that verifies the cited source's filename matches the known highest-voted reply for that thread. That would make criterion 5 machine-checkable instead of requiring me to read every transcript by hand.
+
 <!-- For each criterion still missed after your fix: what you'd do about it,
      and why you stopped where you did.
 
@@ -460,6 +468,8 @@ One side effect: The pass-fail question also dropped from citing two sources (`t
      Milestone 5. -->
 
 ## What I'd Do Differently
+
+**Criterion 5** — I'd write it to test citation correctness directly rather than relying on hand-reading transcripts to catch what the automated scorer can't see. Something like: "For a question where the corpus has multiple candidate replies, the system's cited sources are limited to replies that are actually on-topic for the question, not just present in the retrieved set." This unit made clear that "cites the highest-voted reply" alone doesn't rule out *also* citing something irrelevant alongside it.
 
 <!-- Knowing what you know now — which of your five criteria would you write
      differently, and why?
