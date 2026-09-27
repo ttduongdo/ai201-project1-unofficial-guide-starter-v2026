@@ -417,9 +417,10 @@ Source: thread_laundry_timing.txt
 
 ## The Improvement
 
-**What I changed:** 
+**What I changed:** Added one rule to `GROUNDING_INSTRUCTION` in `generate.py`: "Each document is a separate situation. Don't combine similar-sounding lines from different documents into one claim. Cite the single document that actually answers the question."
 
-**Why I picked it:**
+
+**Why I picked it:** It directly targets the criterion 5 diagnosis above at generation stage. Retrieval was already surfacing the correct chunk first (`thread_late_work.txt`, 47 votes, distance 0.404, unchanged before and after). The model was treating two documents' similar phrasing as one claim, therefore after updating this instruction and rerunning the identical question shows identical retrieval results and the citation includes only the most relevant source.
 
 <!-- Connect it to a specific diagnosis above in one sentence. If you can't,
      you picked a fix because it sounded impressive. -->
@@ -431,13 +432,15 @@ Source: thread_laundry_timing.txt
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 |  |  |  |  |
-| 2. Every answer names a source | 5 of 5 |  |  |  |  |
-| 3. Gate stops out-of-corpus questions | 4 of 5 |  |  |  |  |
-| 4. | | | | | |
-| 5. | | | | | |
+| 1. Retrieved chunk contains the answer | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 2. Every answer names a source | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 4. Chunk contains all parts of a compound fact | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 5. When a thread has multiple conflicting replies, the system cites the highest-voted reply as its source | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
 
-**Did it help?**
+**Did it help?** Yes. Criterion 5 went from 4/5 (the same question failing the same way, all 3 runs) to 5/5. The late-work question now cites only `thread_late_work.txt`, dropping `thread_group_project.txt` from the citation in every run.
+
+One side effect: The pass-fail question also dropped from citing two sources (`thread_pass_fail.txt` and `thread_first_year_regret.txt`) to one. Both threads independently and correctly state the same "week eight" fact, so citing both before wasn't wrong. The instruction's effect there was narrowing to the single most relevant source. So the fix may be making the system more conservative about multi-source citation in general, not just suppressing citations of genuinely unrelated documents.
 
 <!-- Say plainly whether it did, and how you know. If it made things worse,
      say that — a change that backfired, honestly reported, earns full credit
